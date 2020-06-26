@@ -256,5 +256,43 @@ Join us in following the instructions below. While we can't be together in perso
     
         
       
+    <script>
+      let url = 'https://spreadsheets.google.com/feeds/cells/1XIQJbUuuP8b-khg5n4t2Y4U4YuqV1PgaxvMRy4Y9a90/1/public/values?alt=json';
+      window.fetch(url)
+        .then(response => response.json())
+        .then(json => {
+          const cells = json.feed.entry;
+
+          let data = [];
+          let keys = [];
+          let currentDatum;
+          for (let cell of cells) {
+            const row = parseInt(cell['gs$cell'].row);
+            const col = parseInt(cell['gs$cell'].col);
+            const value = cell['gs$cell']['$t'];
+
+            // process header row
+            if (row == 1) {
+              keys.push(value);
+
+            // process data rows
+            } else {
+              if (col == 1) {
+                if (currentDatum) {
+                  data.push(currentDatum);
+                }
+                currentDatum = {};
+              }
+
+              const keyIndex = parseInt(col) - 1;
+              const key = keys[keyIndex];
+              currentDatum[key] = value;
+            }
+          }
+          data.push(currentDatum);
+
+          console.log(data);
+        });
+    </script>
   </body>
 </html>
