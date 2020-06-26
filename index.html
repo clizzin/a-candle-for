@@ -244,6 +244,9 @@ Join us in following the instructions below. While we can't be together in perso
       <img src="https://drive.google.com/uc?export=view&id=1LmNNWV6ZvQFPOBWs0_c13v-jrZNmqaTS" class = "responsive-small-image">
       <img src="https://drive.google.com/uc?export=view&id=1p3p3M7VcAK-V31RY1EfXI2QFOF1YZGtR" class="responsive-small-image" >
       <img src="https://drive.google.com/uc?export=view&id=1p3p3M7VcAK-V31RY1EfXI2QFOF1YZGtR" class="responsive-small-image" >
+
+      <div id="user-photos">
+      </div>
       
 
     </top><br>
@@ -291,7 +294,26 @@ Join us in following the instructions below. While we can't be together in perso
           }
           data.push(currentDatum);
 
-          console.log(data);
+          const photosEl = document.getElementById('user-photos');
+          for (let datum of data) {
+            const url = datum['Upload your candle photo here']
+
+            //temporary code that just displays the spreadsheet text, since it's not pointing at an actual image yet.
+            const photo = document.createElement('p');
+            photo.textContent = url;
+
+            //This is the real code. Uncomment it once the spreadsheet text contains actual URLs.
+            //const photo = document.createElement('img');
+            //photo.src = url;
+
+            const existingPhotos = photosEl.children;
+            if (existingPhotos.length == 0) {
+              photosEl.appendChild(photo);
+            } else {
+              const firstPhoto = existingPhotos[0];
+              photosEl.insertBefore(photo, firstPhoto);
+            }
+          }
         });
     </script>
   </body>
